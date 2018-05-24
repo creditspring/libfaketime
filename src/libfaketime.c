@@ -2588,15 +2588,7 @@ int pthread_cond_timedwait_common(pthread_cond_t *cond, pthread_mutex_t *mutex, 
       }
     }
 
-    /* For CLOCK_MONOTONIC, pthread_cond_timedwait uses clock_gettime
-       internally to calculate the appropriate duration for the
-       waiting time. This already uses the faked functions, hence, the
-       fake time needs to be passed to pthread_cond_timedwait for
-       CLOCK_MONOTONIC. */
-    if(clk_id == CLOCK_MONOTONIC)
-      timespecadd(&faketime, &tdiff_actual, &tp);
-    else
-      timespecadd(&realtime, &tdiff_actual, &tp);
+    timespecadd(&realtime, &tdiff_actual, &tp);
 
     tf = &tp;
   }
